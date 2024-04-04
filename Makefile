@@ -6,7 +6,7 @@
 #    By: dlitran <dlitran@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/16 19:22:34 by mafranco          #+#    #+#              #
-#    Updated: 2024/04/03 17:05:06 by mafranco         ###   ########.fr        #
+#    Updated: 2024/04/04 16:04:40 by mafranco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,20 +31,23 @@ OBJS = ${SRC:.c=.o}
 NAME = minishell
 
 HEADER = inc/header.h
+RDL_DIR = ./readline/
 CC = gcc
 RM = rm -f
 CFLAGS = -Wall -Wextra -Werror
-LINKING_FLAGS = -lreadline -lhistory -L${HOME}/.brew/opt/readline/lib
-COMFILE_FLAGS = -I${HOME}/.brew/opt/readline/include
-#LINKING_FLAGS = -lreadline -lhistory -L/usr/local/opt/readline/lib
-#COMFILE_FLAGS = -I/usr/local/opt/readline/include
+LINKING_FLAGS = -lreadline -lhistory -L./readline
+COMFILE_FLAGS = -I./readline
 LIBFT_PATH = ./libft
 
 %.o: %.c ${HEADER}
 	${CC} ${CFLAGS} $(COMFILE_FLAGS) -I ${HEADER} -c $< -o $@
 
 all:
+	echo "'\033[0;32mcompiling readline...\033[0m"
+	@cd readline && ./configure && make && make install && cd ..
+	echo "'\033[0;32mcompiling libft...\033[0m"
 	@make -C $(LIBFT_PATH)
+	echo "'\033[0;32mcompiling minishell..\033[0m"
 	@make ${NAME}
 
 ${NAME}: ${OBJS}
