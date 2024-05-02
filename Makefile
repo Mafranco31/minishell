@@ -6,7 +6,7 @@
 #    By: dlitran <dlitran@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/16 19:22:34 by mafranco          #+#    #+#              #
-#    Updated: 2024/04/04 16:04:40 by mafranco         ###   ########.fr        #
+#    Updated: 2024/05/02 18:22:28 by mafranco         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ CFLAGS = -Wall -Wextra -Werror
 LINKING_FLAGS = -lreadline -lhistory -L./readline
 COMFILE_FLAGS = -I./readline
 LIBFT_PATH = ./libft
+READLINE_PATH = ./readline
 
 %.o: %.c ${HEADER}
 	${CC} ${CFLAGS} $(COMFILE_FLAGS) -I ${HEADER} -c $< -o $@
@@ -57,7 +58,9 @@ clean:
 			${RM} ${OBJS}
 
 fclean: 	clean
-			${RM} ${NAME}
+			@make fclean -C $(LIBFT_PATH)
+			@make clean -C $(READLINE_PATH)
+			@${RM} ${NAME}
 
 re:			fclean all
 
